@@ -9,6 +9,9 @@
   <body>
     <div id="app-shell">
     <header class="app-header">
+      <button id="mobile-menu-btn" class="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
       <div class="brand">
         <div class="brand-text">
           <span class="brand-title">StudySync</span>
@@ -130,6 +133,15 @@
 
       <section id="timetable" class="tab-content">
         <h2>Weekly Study Timetable</h2>
+        <div class="card mobile-only">
+          <label>
+            View Day
+            <select id="t-view-day">
+              <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+              <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+            </select>
+          </label>
+        </div>
         <form id="session-form" class="card">
           <div class="grid">
             <label>
@@ -225,6 +237,24 @@
       <button data-tab="timetable">Timetable</button>
       <button data-tab="pomodoro">Pomodoro</button>
     </nav>
+    <div id="mobile-drawer" class="drawer-overlay" aria-hidden="true">
+      <div class="drawer">
+        <div class="drawer-head">
+          <span>Menu</span>
+          <button id="mobile-drawer-close">Close</button>
+        </div>
+        <div class="drawer-nav">
+          <button data-tab="assignments">Assignments</button>
+          <button data-tab="checklist">Daily Checklist</button>
+          <button data-tab="timetable">Weekly Timetable</button>
+          <button data-tab="pomodoro">Pomodoro Timer</button>
+          <button data-tab="calendar">Shared Calendar</button>
+          <button data-tab="progress">Progress</button>
+          <button data-tab="planner">Stress-Reducing Planner</button>
+          <button data-tab="admin" id="drawer-admin">Admin</button>
+        </div>
+      </div>
+    </div>
 
     <footer class="app-footer">
       <span>StudySync • Helps manage assignments, tasks, and study time</span>

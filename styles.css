@@ -24,6 +24,23 @@ html, body {
   grid-template-columns: auto 1fr auto;
   gap: 12px;
 }
+.hamburger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 8px;
+}
+.hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--text);
+  margin: 2px 0;
+}
 .brand { display: flex; gap: 10px; align-items: center; }
 .brand-logo { width: 140px; height: auto; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
@@ -39,7 +56,9 @@ html, body {
   gap: 8px;
 }
 .mobile-nav { display: none; }
+.mobile-only { display: none; }
 @media (max-width: 700px) {
+  .hamburger { display: inline-flex; }
   .tabs { display: none; }
   .mobile-nav {
     position: fixed;
@@ -59,7 +78,33 @@ html, body {
   main { padding-bottom: 72px; }
   .card { padding: 12px; }
   input, select, textarea, button { font-size: 16px; }
+  .mobile-only { display: block; }
+  .timetable-grid { grid-template-columns: 1fr; }
 }
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  background: rgba(0,0,0,0.4);
+}
+.drawer-overlay[aria-hidden="false"] { display: block; }
+.drawer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 260px;
+  height: 100%;
+  background: var(--card);
+  border-right: 1px solid #1f2937;
+  padding: 12px;
+}
+.drawer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.drawer-nav { display: grid; gap: 8px; }
+.drawer-nav button { text-align: left; }
 .tabs button {
   background: #1f2937;
   color: var(--text);

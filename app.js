@@ -9,6 +9,7 @@ const store = {
 document.addEventListener("DOMContentLoaded", async () => {
   await initAuth();
   initTabs();
+  initMobileMenu();
   initAssignments();
   initChecklist();
   initTimetable();
@@ -120,10 +121,12 @@ async function initAuth(){
   function route(){
     const h = location.hash || "#/login";
     const adminTab = document.getElementById("admin-tab");
+    const drawerAdmin = document.getElementById("drawer-admin");
     const currentEmail = localStorage.getItem("auth:current");
     const currentUser = currentEmail ? getUser(currentEmail) : null;
     const isAdmin = !!(currentUser && currentUser.isAdmin);
     adminTab.style.display = isAdmin ? "" : "none";
+    if(drawerAdmin) drawerAdmin.style.display = isAdmin ? "" : "none";
     if(h.startsWith("#/login")){
       shell.style.display = "none";
       gate.style.display = "";
@@ -255,6 +258,22 @@ function initReportUI(){
     overlay.style.display = "none";
     subjectEl.value = ""; detailsEl.value = "";
     notify("Report submitted", "Admin will review your issue");
+  });
+}
+
+function initMobileMenu(){
+  const btn = document.getElementById("mobile-menu-btn");
+  const overlay = document.getElementById("mobile-drawer");
+  const closeBtn = document.getElementById("mobile-drawer-close");
+  if(!btn || !overlay) return;
+  btn.addEventListener("click", () => {
+    overlay.setAttribute("aria-hidden","false");
+  });
+  closeBtn.addEventListener("click", () => {
+    overlay.setAttribute("aria-hidden","true");
+  });
+  overlay.addEventListener("click", (e) => {
+    if(e.target === overlay) overlay.setAttribute("aria-hidden","true");
   });
 }
 
@@ -434,7 +453,7 @@ function isSuspicious(email){
 }
 
 function initTabs(){
-  const buttons = document.querySelectorAll(".tabs button, .mobile-nav button");
+  const buttons = document.querySelectorAll(".tabs button, .mobile-nav button, .drawer-nav button");
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
       buttons.forEach(b => b.classList.remove("active"));
@@ -443,6 +462,8 @@ function initTabs(){
       document.querySelectorAll(".tab-content").forEach(sec => {
         sec.classList.toggle("visible", sec.id === target);
       });
+      const overlay = document.getElementById("mobile-drawer");
+      if(overlay) overlay.setAttribute("aria-hidden","true");
     });
   });
 }
@@ -748,12 +769,15 @@ function initChecklist(){
 function initTimetable(){
   const form = document.getElementById("session-form");
   const grid = document.getElementById("timetable-grid");
+  const viewSel = document.getElementById("t-view-day");
   let sessions = store.get("sessions", []);
   const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
   function save(){ store.set("sessions", sessions); render(); }
   function render(){
     grid.innerHTML = "";
-    days.forEach(d => {
+    const isMobile = window.matchMedia("(max-width: 700px)").matches;
+    const daysToShow = isMobile && viewSel ? [viewSel.value || "Monday"] : days;
+    daysToShow.forEach(d => {
       const col = document.createElement("div");
       col.className = "col";
       const head = document.createElement("h3");
@@ -778,6 +802,9 @@ function initTimetable(){
       });
       grid.appendChild(col);
     });
+  }
+  if(viewSel){
+    viewSel.addEventListener("change", render);
   }
   form.addEventListener("submit", (e) => {
     e.preventDefault();
