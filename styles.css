@@ -38,6 +38,28 @@ html, body {
   flex-wrap: wrap;
   gap: 8px;
 }
+.mobile-nav { display: none; }
+@media (max-width: 700px) {
+  .tabs { display: none; }
+  .mobile-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+    backdrop-filter: blur(8px);
+    background: #0b1324cc;
+    border-top: 1px solid #1f2937;
+  }
+  .mobile-nav button {
+    flex: 1;
+    min-height: 44px;
+    font-size: 14px;
+  }
+  main { padding-bottom: 72px; }
+  .card { padding: 12px; }
+  input, select, textarea, button { font-size: 16px; }
+}
 .tabs button {
   background: #1f2937;
   color: var(--text);
