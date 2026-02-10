@@ -776,7 +776,7 @@ function initTimetable(){
   function render(){
     grid.innerHTML = "";
     const isMobile = window.matchMedia("(max-width: 700px)").matches;
-    const daysToShow = isMobile && viewSel ? [viewSel.value || "Monday"] : days;
+    const daysToShow = (isMobile && viewSel && viewSel.value && viewSel.value !== "All Days") ? [viewSel.value] : days;
     daysToShow.forEach(d => {
       const col = document.createElement("div");
       col.className = d==="Sunday" ? "col sunday" : "col";

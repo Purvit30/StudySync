@@ -227,7 +227,7 @@ button:hover {
   font-size: 22px;
 }
 .timetable-grid {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(7, 1fr);
 }
 .timetable-grid .col {
   border: 1px solid #1f2937;
@@ -235,7 +235,10 @@ button:hover {
   padding: 8px;
   background: #0b1324;
 }
-.timetable-grid .col.sunday { grid-column: 2; }
+@media (max-width: 700px) {
+  .timetable-grid { grid-template-columns: repeat(3, 1fr); }
+  .timetable-grid .col.sunday { grid-column: 2; }
+}
 .timetable-grid .session {
   background: #16233f;
   border: 1px solid #1f2937;
