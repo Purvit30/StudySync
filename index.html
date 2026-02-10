@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StudySync</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div id="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-text">
+          <span class="brand-title">StudySync</span>
+          <span class="brand-tagline">Organise, Focus, Succed.</span>
+        </div>
+      </div>
+      <nav class="tabs">
+        <button data-tab="assignments" class="active">Assignments</button>
+        <button data-tab="checklist">Daily Checklist</button>
+        <button data-tab="timetable">Weekly Timetable</button>
+        <button data-tab="pomodoro">Pomodoro Timer</button>
+        <button data-tab="calendar">Shared Calendar</button>
+        <button data-tab="progress">Progress</button>
+        <button data-tab="planner">Stress-Reducing Planner</button>
+        <button data-tab="admin" id="admin-tab" style="display:none;">Admin</button>
+      </nav>
+      <div class="user-menu">
+        <span id="user-name" class="badge">Guest</span>
+        <button id="login-btn" class="secondary">Login</button>
+        <button id="report-btn" class="secondary">Report Issue</button>
+        <button id="logout-btn">Logout</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="assignments" class="tab-content visible">
+        <h2>Assignment Deadlines</h2>
+        <form id="assignment-form" class="card">
+          <div class="grid">
+            <label>
+              Title
+              <input type="text" id="a-title" required placeholder="e.g., Lab Report 3">
+            </label>
+            <label>
+              Course
+              <input type="text" id="a-course" placeholder="e.g., ME201">
+            </label>
+            <label>
+              Due Date & Time
+              <input type="datetime-local" id="a-due" required>
+            </label>
+            <label>
+              Est. Effort (hrs)
+              <input type="number" id="a-effort" min="0" step="0.5" value="2">
+            </label>
+            <label>
+              Status
+              <select id="a-status">
+                <option value="not_started">Not started</option>
+                <option value="in_progress">In progress</option>
+                <option value="submitted">Submitted</option>
+              </select>
+            </label>
+          </div>
+          <fieldset class="reminders">
+            <legend>Smart Reminders</legend>
+            <label><input type="checkbox" id="r-24h" checked> 24 hours before</label>
+            <label><input type="checkbox" id="r-6h" checked> 6 hours before</label>
+            <label><input type="checkbox" id="r-1h" checked> 1 hour before</label>
+          </fieldset>
+          <button type="submit" class="primary">Add Assignment</button>
+        </form>
+        <div class="list-header">
+          <input id="a-filter" placeholder="Filter by course or title">
+          <span id="a-count"></span>
+        </div>
+        <div class="card" id="ai-assist">
+          <h3 style="margin:0 0 8px;">AI Assignment Assistant</h3>
+          <div class="grid">
+            <label>
+              Topic
+              <input type="text" id="ai-topic" placeholder="e.g., Heat exchanger design for ME201">
+            </label>
+            <label>
+              Link to Assignment
+              <select id="ai-assignment"></select>
+            </label>
+          </div>
+          <div class="row" style="margin-top:8px;">
+            <button id="ai-generate" class="primary">Generate Plan</button>
+            <button id="ai-to-checklist" class="secondary" disabled>Add tasks to checklist</button>
+            <button id="ai-to-planner" disabled>Schedule blocks</button>
+          </div>
+          <div id="ai-output" class="list" style="margin-top:12px;"></div>
+        </div>
+        <ul id="assignment-list" class="list"></ul>
+      </section>
+      <section id="admin" class="tab-content">
+        <h2>Admin Dashboard</h2>
+        <div class="card">
+          <div id="admin-summary" class="row" style="justify-content:space-between;"></div>
+        </div>
+        <div class="card">
+          <div class="row" style="justify-content:space-between;">
+            <div class="badges">
+              <span class="badge">Reports</span>
+            </div>
+            <div class="row">
+              <button id="admin-reports-refresh" class="secondary">Refresh</button>
+            </div>
+          </div>
+        </div>
+        <ul id="admin-reports" class="list"></ul>
+        <ul id="admin-users" class="list"></ul>
+      </section>
+
+      <section id="checklist" class="tab-content">
+        <h2>Daily Task Checklist</h2>
+        <div class="card">
+          <input id="task-input" placeholder="Add a quick task">
+          <button id="task-add" class="primary">Add</button>
+        </div>
+        <ul id="task-list" class="list"></ul>
+        <div class="stats-row">
+          <span id="task-stats"></span>
+          <button id="task-clear" class="danger">Clear completed</button>
+        </div>
+      </section>
+
+      <section id="timetable" class="tab-content">
+        <h2>Weekly Study Timetable</h2>
+        <form id="session-form" class="card">
+          <div class="grid">
+            <label>
+              Day
+              <select id="s-day">
+                <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+                <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+              </select>
+            </label>
+            <label>
+              Start
+              <input type="time" id="s-start" required value="09:00">
+            </label>
+            <label>
+              End
+              <input type="time" id="s-end" required value="10:00">
+            </label>
+            <label>
+              Focus
+              <input type="text" id="s-focus" placeholder="e.g., Thermodynamics ch.4">
+            </label>
+          </div>
+          <button type="submit" class="primary">Add Study Session</button>
+        </form>
+        <div id="timetable-grid" class="grid timetable-grid"></div>
+      </section>
+
+      <section id="pomodoro" class="tab-content">
+        <h2>Pomodoro Study Timer</h2>
+        <div class="card">
+          <div class="grid">
+            <label>Focus (min) <input type="number" id="p-focus" value="25" min="10" max="90"></label>
+            <label>Short Break (min) <input type="number" id="p-short" value="5" min="3" max="30"></label>
+            <label>Long Break (min) <input type="number" id="p-long" value="15" min="10" max="60"></label>
+            <label>Long Break Every <input type="number" id="p-every" value="4" min="2" max="10"></label>
+          </div>
+          <div class="pomodoro-display">
+            <span id="p-phase">Ready</span>
+            <span id="p-time">00:00</span>
+          </div>
+          <div class="row">
+            <button id="p-start" class="primary">Start</button>
+            <button id="p-pause">Pause</button>
+            <button id="p-reset" class="danger">Reset</button>
+          </div>
+          <div class="row">
+            <span>Total sessions: <strong id="p-sessions">0</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <section id="calendar" class="tab-content">
+        <h2>Class-wide Shared Deadline Calendar</h2>
+        <div class="card">
+          <div class="row">
+            <button id="cal-export" class="primary">Export deadlines (ICS)</button>
+            <button id="cal-share" class="secondary">Create share link</button>
+          </div>
+          <div class="grid">
+            <label>
+              Import Share Code
+              <textarea id="cal-import" rows="3" placeholder="Paste share code here"></textarea>
+            </label>
+          </div>
+          <div class="row">
+            <button id="cal-import-btn">Import deadlines</button>
+          </div>
+          <p class="hint">Share code encodes deadlines so classmates can import them without accounts.</p>
+        </div>
+      </section>
+
+      <section id="progress" class="tab-content">
+        <h2>Assignment Progress Tracker</h2>
+        <div id="progress-summary" class="card"></div>
+        <ul id="progress-list" class="list"></ul>
+      </section>
+
+      <section id="planner" class="tab-content">
+        <h2>Stress-Reducing Study Planner</h2>
+        <div class="card">
+          <p>Plan balanced study blocks based on upcoming deadlines and effort estimates.</p>
+          <div class="row">
+            <button id="plan-week" class="primary">Plan My Week</button>
+            <button id="planner-clear" class="danger">Clear planned blocks</button>
+          </div>
+        </div>
+        <div id="planner-output" class="grid timetable-grid"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>StudySync • Helps manage assignments, tasks, and study time</span>
+      <button id="notif-permission" class="secondary">Enable Notifications</button>
+    </footer>
+    </div>
+    <div id="auth" class="auth-overlay" aria-hidden="true">
+      <div class="auth-card">
+        <div class="brand brand-center" style="margin-bottom:12px;">
+          <div class="brand-text">
+            <span class="brand-title">StudySync</span>
+            <span class="brand-tagline">Organise, Focus, Succed.</span>
+          </div>
+        </div>
+        <h2 style="margin:0 0 8px;">Welcome to StudySync</h2>
+        <p class="hint" style="margin:0 0 12px;">Sign in or create an account to personalize your workspace</p>
+        <div class="grid">
+          <label>
+            Name
+            <input type="text" id="auth-name" placeholder="e.g., Alex Gupta">
+          </label>
+          <label>
+            Email
+            <input type="email" id="auth-email" placeholder="you@example.com">
+          </label>
+          <label>
+            Password
+            <input type="password" id="auth-password" placeholder="Enter password">
+          </label>
+        </div>
+        <div class="row" style="margin-top:12px;">
+          <button id="auth-mode" class="secondary">Switch to Sign In</button>
+          <button id="auth-submit" class="primary">Create Account</button>
+          <button id="auth-guest">Continue as Guest</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="admin-auth" class="auth-overlay" aria-hidden="true" style="display:none;">
+      <div class="auth-card">
+        <div class="brand brand-center" style="margin-bottom:12px;">
+          <img src="assets/logo.svg" alt="StudySync logo" class="brand-logo">
+          <div class="brand-text">
+            <span class="brand-title">StudySync Admin</span>
+          </div>
+        </div>
+        <h2 style="margin:0 0 8px;">Admin Login</h2>
+        <p class="hint" style="margin:0 0 12px;">Enter admin credentials to access the dashboard</p>
+        <div class="grid">
+          <label>
+            Username
+            <input type="text" id="admin-user" placeholder="Admin username">
+          </label>
+          <label>
+            Password
+            <input type="password" id="admin-pass" placeholder="Admin password">
+          </label>
+        </div>
+        <div class="row" style="margin-top:12px;">
+          <button id="admin-login" class="primary">Sign In</button>
+        </div>
+      </div>
+    </div>
+    <div id="report-overlay" class="auth-overlay" aria-hidden="true" style="display:none;">
+      <div class="auth-card">
+        <h2 style="margin:0 0 8px;">Report an Issue</h2>
+        <p class="hint" style="margin:0 0 12px;">Describe the problem. It will be sent to the admin.</p>
+        <div class="grid">
+          <label>
+            Subject
+            <input type="text" id="report-subject" placeholder="Short title">
+          </label>
+          <label>
+            Category
+            <select id="report-category">
+              <option>Bug</option>
+              <option>Feature Request</option>
+              <option>Data Issue</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label style="grid-column: 1 / -1;">
+            Details
+            <textarea id="report-details" rows="4" placeholder="What happened? Steps, expected, actual."></textarea>
+          </label>
+        </div>
+        <div class="row" style="margin-top:12px;">
+          <button id="report-submit" class="primary">Submit Report</button>
+          <button id="report-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+  </html>
+  </html>
+  </html>
