@@ -453,7 +453,7 @@ function isSuspicious(email){
 }
 
 function initTabs(){
-  const buttons = document.querySelectorAll(".tabs button, .mobile-nav button, .drawer-nav button");
+  const buttons = document.querySelectorAll(".tabs button, .drawer-nav button");
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
       buttons.forEach(b => b.classList.remove("active"));
@@ -779,7 +779,7 @@ function initTimetable(){
     const daysToShow = isMobile && viewSel ? [viewSel.value || "Monday"] : days;
     daysToShow.forEach(d => {
       const col = document.createElement("div");
-      col.className = "col";
+      col.className = d==="Sunday" ? "col sunday" : "col";
       const head = document.createElement("h3");
       head.textContent = d;
       head.style.marginTop = "0";
@@ -1043,7 +1043,7 @@ function initPlanner(){
     const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
     days.forEach(d => {
       const col = document.createElement("div");
-      col.className = "col";
+      col.className = d==="Sunday" ? "col sunday" : "col";
       const head = document.createElement("h3");
       head.textContent = d;
       head.style.marginTop = "0";
