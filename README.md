@@ -4,8 +4,8 @@
 
 [Live Demo](https://study-sync-7a9f.vercel.app/#/app) · [Report a Bug](../../issues) · [Request a Feature](../../issues)
 
-<!-- SCREENSHOT PLACEHOLDER 1 — add: assets/screenshots/studysync-dashboard.png -->
-<!-- Suggested capture: Assignments dashboard with a few sample deadlines. -->
+<img width="1582" height="945" alt="image" src="https://github.com/user-attachments/assets/c27ee4e0-9a60-4b16-bbcd-2df0c9073479" />
+
 
 ## Why StudySync?
 
@@ -25,8 +25,9 @@ Keeping track of assignments, study sessions, and deadlines can become stressful
 - **Admin and issue reporting** — submit issue reports and review prototype data in an admin area.
 - **Responsive navigation** — use a mobile-friendly drawer on smaller screens.
 
-<!-- SCREENSHOT PLACEHOLDER 2 — add: assets/screenshots/studysync-planner.png -->
-<!-- Suggested capture: Pomodoro Timer or Stress-Reducing Study Planner. -->
+<img width="3164" height="1890" alt="image" src="https://github.com/user-attachments/assets/8fb39860-722c-4678-9d16-aa0b2beec94c" />
+
+<img width="3164" height="1890" alt="image" src="https://github.com/user-attachments/assets/f4db65c2-76a9-4fdc-b914-2bf023da278d" />
 
 ## Built With
 
@@ -77,9 +78,6 @@ StudySync is a frontend prototype. Its users, authentication data, assignments, 
 - Add automated tests and improved validation
 - Allow collaboration through accounts rather than browser-only share codes
 - Improve accessibility and support more notification settings
-
-<!-- SCREENSHOT PLACEHOLDER 3 — add: assets/screenshots/studysync-mobile.png -->
-<!-- Suggested capture: Mobile navigation or the shared deadline calendar. -->
 
 ## Author
 
