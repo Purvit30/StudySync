@@ -176,7 +176,6 @@ function initAdminAuthUI(){
   }
   (async () => {
     if(!localStorage.getItem("admin:cred")){
-      const preset = await hash("Purvit:"+"Mihir18");
       localStorage.setItem("admin:cred", preset);
     }
   })();
